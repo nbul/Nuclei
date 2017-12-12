@@ -15,6 +15,9 @@ for i = 1:numel(B)
     scatter(double([Hdata(i).PixelValues]), double([Bdata(i).PixelValues]),8,'r', 'o', 'filled');
     text(0.05, 0.9, ['P = ', num2str(dataB(i,2)), ';  p = ', num2str(dataB(i,3))],...
         'FontSize', 14, 'FontWeight', 'bold', 'Position', [0.05 0.9], 'Units', 'normalized');
+    xlabel('gH2AX', 'FontSize', 18, 'FontWeight', 'bold') % x-axis label
+    ylabel('53BP1', 'FontSize', 18, 'FontWeight', 'bold') % y-axis label
+    
     image_filename = [num2str(i),'correlation.tif'];
     print(image3, '-dtiff', '-r150', image_filename);
 end

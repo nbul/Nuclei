@@ -49,11 +49,12 @@ for i = 1:numel(B)
             j=1;
         end
     end
+    %% Perimeter intensity vs the center
     data(i,5) = (-mean(ProfileAv{i}(1:(3*ceil(length(ProfileAv{i})/4)-1)))+...
         mean(ProfileAv{i}(3*ceil(length(ProfileAv{i})/4):end)))...
         /mean(ProfileAv{i});
     
-    % Homogeneity
+    %% Homogeneity
     image = H2(min(Hdata(i).PixelList(:,2)+4):max(Hdata(i).PixelList(:,2)-4),...
         min(Hdata(i).PixelList(:,1)+4):max(Hdata(i).PixelList(:,1)));
     thr = graythresh(image(image>0));
@@ -65,9 +66,9 @@ for i = 1:numel(B)
     cc2 = regionprops(cc, 'Area');
     data(i,6) = numel(cc2)/Ddata(i).Area;
     
-    if data(i,6) >= 0.0035
+    if data(i,6) >= 0.0035  % Homogeneity cut-off (N objects in nucleus/area)
         data2(i,1) = {'foci'};
-    elseif data(i,5) >= 0.1
+    elseif data(i,5) >= 0.1     % Perimeter intensity cutoff (last quadrant mean - first three quadrants mean divided by total mean)
         data2(i,1) = {'ring'};
     else 
         data2(i,1) = {'uniform'};
