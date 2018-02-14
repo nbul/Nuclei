@@ -2,7 +2,7 @@
 Dsub = imgaussfilt(D,2);
 Th = graythresh(imadjust(Dsub));
 D2 = imbinarize(imadjust(Dsub), Th*0.7);
-D2 = bwareaopen(D2, 200);
+D2 = bwareaopen(D2, 400);
 D2 = imclearborder(D2);
 D2 = imdilate(D2,strel('disk',3));
 D2 = imerode(D2,strel('disk',3));
