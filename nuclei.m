@@ -7,6 +7,7 @@ addpath(pwd);
 filedir = uigetdir();
 cd(filedir);
 
+%% Defining the channels for DAPI, gammaH2AX, and additional markers
 DAPI = 1;
 H2A = 2;
 BP1 = 3;
@@ -16,6 +17,8 @@ parameters = inputdlg({'DAPI channel:','yH2AX channel', '53BP1 channel:'},...
 DAPI = str2double(parameters{1});
 H2A = str2double(parameters{2});
 BP1 = str2double(parameters{3});
+
+res = inputdlg({'What is the data format?'},'Parameters',1,'nd2');
 
 if exist([filedir,'/images_analysed'],'dir') == 0
     mkdir(filedir,'/images_analysed');
