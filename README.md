@@ -4,4 +4,4 @@ This is a script to analyse the spacial appearance of DNA damage in nuclei and t
 
 ## Running the script
 
-In case working with the original microscopy images, e.g. "nd2", run "nuclei.m" file. It will first ask what are the channels used for each staining. In case there is only DAPI and &#946 H2AX
+In case working with the original microscopy images, e.g. "nd2", run "nuclei.m" file. It will first ask what are the channels used for each staining. In case there is only DAPI and &#946; H2AX
