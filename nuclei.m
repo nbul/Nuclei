@@ -17,9 +17,11 @@ parameters = inputdlg({'DAPI channel:','yH2AX channel', '53BP1 channel:'},...
 DAPI = str2double(parameters{1});
 H2A = str2double(parameters{2});
 BP1 = str2double(parameters{3});
+%% Format of the pictures
+res = inputdlg({'What is the data format?'},'Parameters',1,{'nd2'});
+res = res{1};
 
-res = inputdlg({'What is the data format?'},'Parameters',1,'nd2');
-
+%% Creating folders for resutls
 if exist([filedir,'/images_analysed'],'dir') == 0
     mkdir(filedir,'/images_analysed');
 end
@@ -40,7 +42,7 @@ if exist([filedir,'/cellbycelldata'],'dir') == 0
 end
 stat_dir = [filedir,'/cellbycelldata'];
 
-files = dir(strcat(filedir,'/*', '.nd2'));
+files = dir(strcat(filedir,'/*.', res));
 if BP1 > 0
     datapulled = {'Image', 'Nucleus', 'Area', 'DAPI intensity', 'gH2AX intensity', 'gH2AX periphery/center',...
         'gH2AX homogeneity', 'Signal class', '53BP1 intensity', 'gH2AX/53BP1 correlation', 'p-value'};
@@ -52,7 +54,7 @@ else
 end
 
 for loop=1:numel(files)
-    Number1 = [num2str(loop),'.nd2'];
+    Number1 = [num2str(loop),'.',res];
     Image = bfopen(Number1);
     Image = Image{1,1};
     D = Image{DAPI,1};
