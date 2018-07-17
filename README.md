@@ -13,4 +13,7 @@ In the next step, the script creates folders, where analysed data will be saved.
 1. *images_analysed* - saves each DAPI chanel image with outlines of the nuclei, with each nucleus being numbered with numbers corresponding to what is in other files.<br>
 ![Example of analysed image](images/1_analysed_image.png)
 
-1. *distributions* - there will be folders 
+1. *distributions* - there will be folders for individual images with the names corresponding to each image, in which there placed radial distributions of &#947;H2AX for each nucleus (the number of the nucleaus is the same as on the images described above). The classification of the nucleus is written on each image. Here are a couple of examples: <br>
+![Example of analysed image](images/13_distribution.png)<br>
+![Example of analysed image](images/8_distribution.png)<br>
+![Example of analysed image](images/7_distribution.png)
