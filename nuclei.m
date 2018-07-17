@@ -42,6 +42,7 @@ if exist([filedir,'/cellbycelldata'],'dir') == 0
 end
 stat_dir = [filedir,'/cellbycelldata'];
 
+%% Setting headers for individual image statistics summaries
 files = dir(strcat(filedir,'/*.', res));
 if BP1 > 0
     datapulled = {'Image', 'Nucleus', 'Area', 'DAPI intensity', 'gH2AX intensity', 'gH2AX periphery/center',...
@@ -53,6 +54,7 @@ else
     avdata = zeros(numel(files),11);
 end
 
+%% analysis
 for loop=1:numel(files)
     Number1 = [num2str(loop),'.',res];
     Image = bfopen(Number1);
