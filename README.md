@@ -18,7 +18,7 @@ In the next step, the script creates folders, where analysed data will be saved.
 ![Example of analysed image](images/8_distribution.png)<br>
 ![Example of analysed image](images/7_distribution.png)
 
-1. *cellbycelldata* - there will be the tables with all analysed data. First there will be ".csv" files for each image with information about each nuclei, i.e. overall area in pixels, mean DAPI intensity, mean &#947;H2AX intensity, ratio of &#947;H2AX intensity within the peripheral quartile and the rest of the nucleus, homogeniety of &#947;H2AX signal based on foci detection (see below), and classification of the nucleus. In case there is other protein e.g. 53BP1 stainig, there will be additionally information about its mean intensity and Pearson's correlation coefficient between this protein and &#947;H2AX, and the p-value of this correlation being non-zerp (see examples below). <br>
+1. *cellbycelldata* - there will be the tables with all analysed data. First there will be ".csv" files for each image with information about each nuclei, i.e. overall area in pixels, mean DAPI intensity, mean &#947;H2AX intensity, ratio of &#947;H2AX intensity within the peripheral quartile and the rest of the nucleus, homogeniety of &#947;H2AX signal based on foci detection (see below), and classification of the nucleus. In case there is other protein e.g. 53BP1 stainig, there will be additionally information about its mean intensity and Pearson's correlation coefficient between this protein and &#947;H2AX, and the p-value of this correlation being non-zero (see examples below). <br>
 ![Example of analysed image](images/cellbycell1.png)<br>
 ![Example of analysed image](images/cellbycell2.png)<br>
 
