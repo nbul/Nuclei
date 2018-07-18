@@ -1,19 +1,23 @@
+%% Assigning memory
 [im_x, im_y] = size(H);
 Profile = struct([]);
 ProfileAv = struct([]);
 data = zeros(numel(B),6);
 data2 = cell(numel(B),1);
 
-%% Number, Area, Intensity
+%% Number, Area, Intensity using DAPI image
 data(:,1) = 1:numel(B);
 Ddata = regionprops(comp4, D, 'Area', 'MeanIntensity');
 data(:,2) = [Ddata.Area];
 data(:,3) = [Ddata.MeanIntensity];
 
-%% Gaussfilter
+%% Intensity, Pixel data and nuclei centers using gammaH2AX data
 Hdata = regionprops(comp4,H,'MeanIntensity', 'PixelList', 'PixelValues', 'Centroid');
-H2 =imgaussfilt(H,1);
 data(:,4) = [Hdata.MeanIntensity];
+%% Gaussfilter to smoothen gammaH2AX signal
+H2 =imgaussfilt(H,1);
+
+%% Setting subfolder for radial distributions in this image
 cd(dist_dir);
 if exist([dist_dir,'/',num2str(loop)],'dir') == 0
     mkdir(dist_dir,num2str(loop));
@@ -25,12 +29,14 @@ for i = 1:numel(B)
     % profile
     MaxL = 0;
     for k = 1:length(B{i})
+        %Profile from centroid to each point at the boundary
         Profile{k} = improfile(H,[Hdata(i).Centroid(1) B{i}(k,2)], [Hdata(i).Centroid(2) B{i}(k,1)]);
         
         if length(Profile{k})>MaxL
-            MaxL = length(Profile{k});
+            MaxL = length(Profile{k}); % determening maximum length of the profiles
         end
     end
+    % making the average profile for the nucleus
     ProfileAv{i} = zeros(MaxL,1);
     Profile2 = zeros(MaxL,length(B{i}));
     for k = 1:length(B{i})
@@ -41,6 +47,8 @@ for i = 1:numel(B)
     
     ProfileAv{i} = ProfileAv{i}/length(B{i});
     j = 0;
+    % Removing the tail of the profile with artefacts -> the drop observed
+    % due to resampling
     while j == 0
         if (ProfileAv{i}(end-1) - ProfileAv{i}(end) > mean(ProfileAv{i})/20 ||...
             ProfileAv{i}(end-2) - ProfileAv{i}(end) > mean(ProfileAv{i})/20)
@@ -56,16 +64,16 @@ for i = 1:numel(B)
     
     %% Homogeneity
     image = H2(min(Hdata(i).PixelList(:,2)+4):max(Hdata(i).PixelList(:,2)-4),...
-        min(Hdata(i).PixelList(:,1)+4):max(Hdata(i).PixelList(:,1)));
-    thr = graythresh(image(image>0));
-    BW = imbinarize(image,'adaptive');
-    BW = imclearborder(BW);
-    BW = bwareaopen(BW, 3);
-    %imshow(BW);
+        min(Hdata(i).PixelList(:,1)+4):max(Hdata(i).PixelList(:,1))); % cropping an individual nucleus
+    BW = imbinarize(image,'adaptive'); % thresholding using adaptive method to determine foci
+    BW = imclearborder(BW); % removing foci at the nucleis border -> the ring
+    BW = bwareaopen(BW, 3); % removing foci smaller than 3 px
+    % collecting information about number and size of foci
     cc = bwconncomp(BW);
     cc2 = regionprops(cc, 'Area');
-    data(i,6) = numel(cc2)/Ddata(i).Area;
+    data(i,6) = numel(cc2)/Ddata(i).Area; % number of foci divided by area
     
+    %% Classifying nuclei - first foci, then profile
     if data(i,6) >= 0.0035  % Homogeneity cut-off (N objects in nucleus/area)
         data2(i,1) = {'foci'};
     elseif data(i,5) >= 0.1     % Perimeter intensity cutoff (last quadrant mean - first three quadrants mean divided by total mean)
@@ -74,7 +82,7 @@ for i = 1:numel(B)
         data2(i,1) = {'uniform'};
     end
     
-    % Plot profile and type
+    %% Plot profile and type and save the image
     image2 = figure;
     plot(1:length(ProfileAv{i}),ProfileAv{i}', 'LineWidth',2);
     text(0.05, 0.9, data2(i,1),...

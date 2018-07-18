@@ -1,14 +1,14 @@
-
+%% saving stats for each image and calculating averaged values
 cd(stat_dir);
 if BP1 > 0
-    dataAll = [num2cell(data), data2, num2cell(dataB)];
+    dataAll = [num2cell(data), data2, num2cell(dataB)]; % all data combined together
     dataTitle = {'Nucleus', 'Area', 'DAPI intensity', 'gH2AX intensity', 'gH2AX periphery/center',...
         'gH2AX homogeneity', 'Signal class', '53BP1 intensity', 'gH2AX/53BP1 correlation', 'p-value'};
-    dataAll = [dataTitle; dataAll];
-    cell2csv([num2str(loop),'.csv'], dataAll);
-    imnumber = ones(size(dataAll,1)-1,1)*loop;
-    imnumber = [num2cell(imnumber), dataAll(2:end,:)];
-    datapulled = [datapulled; imnumber];
+    dataAll = [dataTitle; dataAll]; % all data with a header
+    cell2csv([num2str(loop),'.csv'], dataAll); % saving file with data for each image
+    imnumber = ones(size(dataAll,1)-1,1)*loop; % creating first column with image number
+    imnumber = [num2cell(imnumber), dataAll(2:end,:)]; % adding first column to the rest of the data
+    datapulled = [datapulled; imnumber]; % pulling the data
     avdata(loop, 1) = loop;     %number of image
     avdata(loop, 2) = numel(B); %number of nuclei in image
     avdata(loop, 3) = mean(data(:,2)); % average area
@@ -25,14 +25,14 @@ if BP1 > 0
     avdata(loop, 14) = 100*sum(contains(data2, 'uniform'))/numel(B); % cells with uniform
     avdata(loop, 15) = 100*sum(contains(data2, 'ring'))/numel(B); % cells with rings
 else
-    dataAll = [num2cell(data), data2];
+    dataAll = [num2cell(data), data2]; % all data combined together
     dataTitle = {'Nucleus', 'Area', 'DAPI intensity', 'gH2AX intensity', 'gH2AX periphery/center',...
         'gH2AX homogeneity', 'Signal class'};
-    dataAll = [dataTitle; dataAll];
-    cell2csv([num2str(loop),'.csv'], dataAll);
-    imnumber = ones(size(dataAll,1)-1,1)*loop;
-    imnumber = [num2cell(imnumber), dataAll(2:end,:)];
-    datapulled = [datapulled; imnumber];
+    dataAll = [dataTitle; dataAll]; % all data with a header
+    cell2csv([num2str(loop),'.csv'], dataAll);  % saving file with data for each image
+    imnumber = ones(size(dataAll,1)-1,1)*loop; % creating first column with image number
+    imnumber = [num2cell(imnumber), dataAll(2:end,:)];  % adding first column to the rest of the data
+    datapulled = [datapulled; imnumber];  % pulling the data
         avdata(loop, 1) = loop;     %number of image
     avdata(loop, 2) = numel(B); %number of nuclei in image
     avdata(loop, 3) = mean(data(:,2)); % average area

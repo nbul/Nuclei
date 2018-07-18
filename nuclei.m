@@ -56,11 +56,12 @@ end
 
 %% analysis
 for loop=1:numel(files)
+    % reading images
     Number1 = [num2str(loop),'.',res];
     Image = bfopen(Number1);
     Image = Image{1,1};
-    D = Image{DAPI,1};
-    H = Image{H2A,1};
+    D = Image{DAPI,1}; % image with DAPI channel
+    H = Image{H2A,1}; % Image with gammaHP2AX channel
     % identification of nuclei
     objects;
     % gH2AX signal
@@ -75,6 +76,7 @@ for loop=1:numel(files)
 end
 %% writing pulled and average data
 cd(stat_dir);
+% headers for the file with averaged data and pulled data
 if BP1 > 0
     Header = {'Image', 'N', 'Area', 'SD', 'DAPI', 'SD', 'gH2AX', 'SD',...
         '53BP1', 'SD', 'Correlation', 'SD', '% foci', '% uniform', '% rings'};
@@ -84,6 +86,8 @@ else
          '% foci', '% uniform', '% rings'};
     avdata = [Header; num2cell(avdata)];
 end
+% saving files with data averaged by image and the pulled data for all
+% images
 cell2csv('stats_averaged.csv', avdata);
 cell2csv('stats_all.csv', datapulled);
 
