@@ -74,7 +74,7 @@ for i = 1:numel(B)
     data(i,6) = numel(cc2)/Ddata(i).Area; % number of foci divided by area
     
     %% Classifying nuclei - first foci, then profile
-    if data(i,6) >= 0.0035  % Homogeneity cut-off (N objects in nucleus/area)
+    if data(i,6) >= 0.0013  % Homogeneity cut-off (N objects in nucleus/area)
         data2(i,1) = {'foci'};
     elseif data(i,5) >= 0.1     % Perimeter intensity cutoff (last quadrant mean - first three quadrants mean divided by total mean)
         data2(i,1) = {'ring'};
