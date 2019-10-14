@@ -77,7 +77,7 @@ for i = 1:numel(B)
     radius_range = 0:22;
     intensity_area = zeros(size(radius_range));
     for counter = radius_range
-        remain = imopen(BW, strel('disk', counter));
+        remain = imopen(image, strel('disk', counter));
         intensity_area(counter + 1) = sum(remain(:));
     end
     figure
