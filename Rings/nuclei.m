@@ -74,7 +74,7 @@ for loop=1:numel(files)
     % summary for individual images
     summary;
 end
-%% writing pulled and average data
+    %% writing pulled and average data
 cd(stat_dir);
 % headers for the file with averaged data and pulled data
 if BP1 > 0
@@ -89,7 +89,7 @@ end
 % saving files with data averaged by image and the pulled data for all
 % images
 cell2csv('stats_averaged.csv', avdata);
-cell2csv('stats_all.csv', datapulled);
+cell2csv('stats_all.csv', datapulled);      
 
 cd(currdir);
 clc
