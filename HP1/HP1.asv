@@ -50,7 +50,7 @@ end
 label_dir = [filedir,'/Labels'];
 
 cd(tif8_dir);
-files = dir('*.tif');
+files_tif = dir('*.tif');
 
 HP1_2D;
 
@@ -66,27 +66,25 @@ if choice2 == 0
     WithEcadall2 = array2table(WithEcadall);
     WithEcadall2.Properties.VariableNames = {'image', 'Area', 'Eccentricity',...
         'Circularity','MeanIntensity', 'IntensitySD', 'X', 'Y',...
-        'Volume', 'SurfaceArea','Solidity','MeanIntensity3D','Zposition','Height'};
-   
-    NoEcadall = [NoEcad, NoEcad3D];
+        'Volume', 'SurfaceArea','Solidity','MeanIntensity','Zposition'};
+
     NoEcadall(1,:) = [];
-    NoEcadall = rmoutliers(NoEcadall, 'mean');
-    NoEcadall2 = array2table(NoEcadall);
-    NoEcadall2.Properties.VariableNames ={'image', 'Area', 'Eccentricity',...
+    NoEcadall = rmoutliers(NoEcad3D, 'mean');
+    NoEcad3D2 = array2table(NoEcad3D);
+    NoEcad3D2.Properties.VariableNames ={'image', 'Area', 'Eccentricity',...
         'Circularity','MeanIntensity', 'IntensitySD', 'X', 'Y',...
-        'Volume', 'SurfaceArea','Solidity','MeanIntensity3D','Zposition', 'Height'};
+        'Volume', 'SurfaceArea','Solidity','MeanIntensity','Zposition'};
 
-    writetable(WithEcadall2,'Summary3D.xlsx','Sheet','With E-cad','WriteMode','overwritesheet');
-    writetable(NoEcadall2,'Summary3D.xlsx','Sheet','Without E-cad','WriteMode', 'overwritesheet');
+    writetable(WithEcad3D2,'Summary3D.xlsx','Sheet','With E-cad','WriteMode','overwritesheet');
+    writetable(NoEcad3D2,'Summary3D.xlsx','Sheet','Without E-cad','WriteMode', 'overwritesheet');
 else
-    AllNucleiall = [AllNuclei, AllNuclei3D];
-    AllNucleiall(1,:) = [];
-    AllNucleiall = rmoutliers(AllNucleiall, 'mean');
-    AllNucleiall2 = array2table(AllNucleiall);
-    AllNucleiall2.Properties.VariableNames = {'image', 'Area', 'Eccentricity',...
+    AllNuclei3D(1,:) = [];
+    AllNuclei3D = rmoutliers(AllNuclei3D, 'mean');
+    AllNuclei3D2 = array2table(AllNuclei3D);
+    AllNuclei3D2.Properties.VariableNames = {'image', 'Area', 'Eccentricity',...
         'Circularity','MeanIntensity', 'IntensitySD', 'X', 'Y',...
-        'Volume', 'SurfaceArea','Solidity','MeanIntensity3D','Zposition', 'Height'};
+        'Volume', 'SurfaceArea','Solidity','MeanIntensity','Zposition'};
 
-    writetable(AllNucleiall2,'Summary3D.xlsx','Sheet','All Nuclei', 'WriteMode', 'overwritesheet');
+    writetable(AllNuclei3D2,'Summary3D.xlsx','Sheet','All Nuclei', 'WriteMode', 'overwritesheet');
 end
 cd(currdir);
