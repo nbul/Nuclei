@@ -19,6 +19,11 @@ if exist([filedir,'/Summary'],'dir') == 0
 end
 sum_dir = [filedir,'/Summary'];
 
+if exist([filedir,'/Nuclei'],'dir') == 0
+    mkdir([filedir,'/Nuclei']);
+end
+nuclei_dir = [filedir,'/Nuclei'];
+
 if exist([filedir,'/Threshold'],'dir') == 0
     mkdir([filedir,'/Threshold']);
 end
@@ -90,3 +95,7 @@ else
     writetable(AllNucleiall2,'Summary3D.xlsx','Sheet','All Nuclei', 'WriteMode', 'overwritesheet');
 end
 cd(currdir);
+
+nucleisignal;
+
+nucleianalysis;

@@ -3,7 +3,8 @@ WithEcad3D = [0 0 0 0 0 0];
 NoEcad3D = [0 0 0 0 0 0];
 AllNuclei3D = [0 0 0 0 0 0];
 count3D = zeros(numel(files),1);
-
+distance_all = zeros(20,1);
+positive_all = 0;
 for loop = 1:numel(files)
     cd(Mask_dir);
     Mask = imread([num2str(loop), '_mask.tif']);
@@ -59,7 +60,8 @@ for loop = 1:numel(files)
             end
         end
     end
-
+    positive_all = [positive_all; Positive3D];
+    
     %% Collecting nuclei shape and mean intensity
       %% collecting the data
     Temp3D = [[stats.Volume] [stats.SurfaceArea] [stats.Solidity] [stats.MeanIntensity]...
@@ -71,4 +73,17 @@ for loop = 1:numel(files)
         AllNuclei3D = [AllNuclei3D; Temp3D];
     end
     count3D(loop) = numel(stats.Volume);
+    nucleisignal;
 end
+
+
+figure
+i = 0.05:0.05:1;
+Minus = mean(distance_all(:,positive_all'==0),2)-33;
+MinusSD = std(distance_all(:,positive_all'==0),0, 2)/sqrt(length(positive_all)-sum(positive_all));
+Plus = mean(distance_all(:,positive_all'==1),2)-33;
+PlusSD = std(distance_all(:,positive_all'==1),0,2)/sqrt(sum(positive_all));
+errorbar(i',Minus,MinusSD,"-b");
+hold on;
+errorbar(i',Plus,PlusSD,"-r");
+
